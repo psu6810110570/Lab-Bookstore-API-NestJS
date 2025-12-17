@@ -19,7 +19,8 @@ export class BookCategoryService implements OnModuleInit {
         await this.repo.save([
            { name: 'Fiction', description: 'Stories and novels' },
            { name: 'Technology', description: 'Computers and engineering' },
-           { name: 'History', description: 'Past events' }
+           { name: 'History', description: 'Past events' },
+           { name: 'Comics', description: 'Comic books and graphic novels' }
         ]);
     }
   }
