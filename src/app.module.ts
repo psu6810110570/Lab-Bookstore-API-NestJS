@@ -12,8 +12,8 @@ import { BookCategoryModule } from './book-category/book-category.module';
       username: 'admin',
       password: 'password123',
       database: 'bookstore_dev',
-      entities: [BookCategory],
-      synchronize: true,
+      entities: [BookCategory], // เราจะเพิ่ม Entities ที่นี่ในภายหลัง
+      synchronize: true, // สร้าง Table อัตโนมัติ (ใช้สำหรับ Dev เท่านั้น)
     }),
     BookCategoryModule,
   ],
