@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookCategory } from './book-category/entities/book-category.entity';
 import { BookCategoryModule } from './book-category/book-category.module';
+import { BookModule } from './book/book.module';
+import { Book } from './book/entities/book.entity';
 
 @Module({
   imports: [
@@ -12,10 +14,11 @@ import { BookCategoryModule } from './book-category/book-category.module';
       username: 'admin',
       password: 'password123',
       database: 'bookstore_dev',
-      entities: [BookCategory], // เราจะเพิ่ม Entities ที่นี่ในภายหลัง
+      entities: [BookCategory, Book], // เราจะเพิ่ม Entities ที่นี่ในภายหลัง
       synchronize: true, // สร้าง Table อัตโนมัติ (ใช้สำหรับ Dev เท่านั้น)
     }),
     BookCategoryModule,
+    BookModule,
   ],
 })
 export class AppModule {}
