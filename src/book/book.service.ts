@@ -22,7 +22,10 @@ export class BookService {
   }
 
   async findOne(id: string): Promise<Book> {
-    const book = await this.bookRepository.findOne({ where: { id }, relations: ['category'] });
+    const book = await this.bookRepository.findOne({
+      where: { id },
+      relations: ['category'],
+    });
     if (!book) {
       throw new Error('Book not found');
     }

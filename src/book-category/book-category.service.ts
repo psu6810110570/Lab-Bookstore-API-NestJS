@@ -7,7 +7,9 @@ import { UpdateBookCategoryDto } from './dto/update-book-category.dto';
 
 @Injectable()
 export class BookCategoryService implements OnModuleInit {
-  constructor(@InjectRepository(BookCategory) private repo: Repository<BookCategory>) {}
+  constructor(
+    @InjectRepository(BookCategory) private repo: Repository<BookCategory>,
+  ) {}
   create(createBookCategoryDto: CreateBookCategoryDto) {
     return this.repo.save(createBookCategoryDto);
   }
@@ -15,17 +17,16 @@ export class BookCategoryService implements OnModuleInit {
   async onModuleInit() {
     const count = await this.repo.count();
     if (count === 0) {
-        console.log('Seeding Book Categories...');
-        await this.repo.save([
-           { name: 'Fiction', description: 'Stories and novels' },
-           { name: 'Technology', description: 'Computers and engineering' },
-           { name: 'History', description: 'Past events' },
-           { name: 'Comics', description: 'Comic books and graphic novels' }
-        ]);
+      console.log('Seeding Book Categories...');
+      await this.repo.save([
+        { name: 'Fiction', description: 'Stories and novels' },
+        { name: 'Technology', description: 'Computers and engineering' },
+        { name: 'History', description: 'Past events' },
+        { name: 'Comics', description: 'Comic books and graphic novels' },
+      ]);
     }
   }
 
-  
   findAll() {
     return this.repo.find();
   }
