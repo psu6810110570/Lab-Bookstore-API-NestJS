@@ -59,7 +59,6 @@ export class BookService {
       book.likedBy.splice(userIndex, 1);
     } else {
       // User not found -> Like (Add)
-      // We can push a partial object with ID, TypeORM handles the rest
       book.likedBy.push({ id: userId } as any);
     }
 
