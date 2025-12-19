@@ -10,7 +10,7 @@ export class BookService {
   constructor(
     @InjectRepository(Book)
     private bookRepository: Repository<Book>,
-  ) {}
+  ) { }
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
     const book = this.bookRepository.create(createBookDto);
@@ -41,9 +41,31 @@ export class BookService {
     await this.bookRepository.delete(id);
   }
 
-  async incrementLikes(id: string) {
-    const book = await this.findOne(id);
-    book.likeCount += 1;
+  async toggleLike(id: string, userId: string) {
+    const book = await this.bookRepository.findOne({
+      where: { id },
+      relations: ['likedBy'], // Load Relation likedBy
+    });
+
+    if (!book) {
+      throw new Error('Book not found');
+    }
+
+    // Check if user already liked
+    const userIndex = book.likedBy.findIndex((u) => u.id === userId);
+
+    if (userIndex !== -1) {
+      // User found -> Unlike (Remove)
+      book.likedBy.splice(userIndex, 1);
+    } else {
+      // User not found -> Like (Add)
+      // We can push a partial object with ID, TypeORM handles the rest
+      book.likedBy.push({ id: userId } as any);
+    }
+
+    // Update likeCount based on the array length
+    book.likeCount = book.likedBy.length;
+
     return this.bookRepository.save(book);
   }
 }

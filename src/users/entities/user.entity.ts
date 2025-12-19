@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
+import { Book } from '../../book/entities/book.entity';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -30,4 +32,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToMany(() => Book, (book) => book.likedBy)
+  likedBooks: Book[];
 }

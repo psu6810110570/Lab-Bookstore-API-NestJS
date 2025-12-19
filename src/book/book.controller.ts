@@ -15,6 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { CurrentUser } from '../auth/current-user.decorator';
 
 @Controller('book')
 export class BookController {
@@ -27,9 +28,10 @@ export class BookController {
     return this.bookService.create(createBookDto);
   }
 
+  @UseGuards(AuthGuard('jwt')) // ต้อง Login ก่อนถึงจะ Like ได้ (ทั้ง Admin/User)
   @Patch(':id/like')
-  async likeBook(@Param('id') id: string) {
-    return this.bookService.incrementLikes(id);
+  async toggleLike(@Param('id') id: string, @CurrentUser() user: any) {
+    return this.bookService.toggleLike(id, user.userId);
   }
 
   @Get()
